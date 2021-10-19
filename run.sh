@@ -7,5 +7,6 @@ for i in "${versions[@]}"
 do
   echo "$i"
   KONG_VERSION=$(wget -q ${repo} -O -  | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' | tr '}' '\n'  | awk -F: '{print $3}' |grep $i |grep -v '-'|sort -n | tail -n 1)
-  make 
+  echo "KONG_VERSION ${KONG_VERSION}"
+  KONG_VERSION=${KONG_VERSION} make 
 done

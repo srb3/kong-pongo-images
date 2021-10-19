@@ -1,0 +1,32 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  deployment:
+    name: setup
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: docker login
+      run: |
+        docker login
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    - name: pongo install
+      run: |
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
+        git clone https://github.com/Kong/kong-pongo.git
+        mkdir -p ~/.local/bin
+        ln -s $(realpath kong-pongo/pongo.sh) ~/.local/bin/pongo
+    - name: publish
+      run: |
+        ./run.sh
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

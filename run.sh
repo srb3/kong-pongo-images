@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 repo="https://registry.hub.docker.com/v1/repositories/kong/kong-gateway/tags"
-declare -a versions=("2.4" "2.5" "2.6" "2.7")
+declare -a versions=("2.4" "2.5" "2.6" "2.7" "2.8")
 
 for i in "${versions[@]}"; do
 	echo "$i"
